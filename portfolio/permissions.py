@@ -1,43 +1,69 @@
 from rest_framework import permissions
 
 
-class IsModerator(permissions.BasePermission):
-
+class IsModeratorOrSuperAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.is_authenticated and getattr(request.user, 'role',
-                                                                          None) and request.user.role.name == "Moderator"
+        if not request.user or not request.user.is_authenticated:
+            return False
+
+        role = getattr(request.user, 'role', None)
+        role_name = getattr(role, 'name', None)
+        return role_name in ["Moderator", "SuperAdmin"]
 
 
-class IsAuthenticatedForDetailOrReadOnly(permissions.BasePermission):
-
-    def has_permission(self, request, view):
-        if view.action == 'retrieve':
-            return request.user.is_authenticated
-        return True
-
-
-class FeedbackContactPermission(permissions.BasePermission):
-
-    def has_permission(self, request, view):
-        if request.method == 'GET':
-            return True
-        if request.method == 'POST':
-            return not getattr(request.user, 'role', None) or request.user.role.name != "Moderator"
-        return False
-
-
-class FileProjectContributorPermission(permissions.BasePermission):
+class IsModeratorOrReadOnly(permissions.BasePermission):
 
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
-            return request.user.is_authenticated
-        return False
+            return True
+        role = getattr(request.user, 'role', None)
+        role_name = getattr(role, 'name', None)
+        return role_name == "Moderator"
 
 
-class SuperAdminPermission(permissions.BasePermission):
+class SuperAdminOnly(permissions.BasePermission):
 
     def has_permission(self, request, view):
         if not request.user or not request.user.is_authenticated:
             return False
 
-        return request.user.role.name == "SuperAdmin" and request.method in ["POST", "GET"]
+        role = getattr(request.user, 'role', None)
+        role_name = getattr(role, 'name', None)
+        return role_name == "SuperAdmin"
+
+
+class ReadOnlyOrAuthenticatedForSpecialModels(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        return request.user and request.user.is_authenticated
+
+
+class IsOwnerOrReadOnlyForContacts(permissions.BasePermission):
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        return obj.user == request.user
+
+
+class FeedbackPermission(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return request.user and request.user.is_authenticated
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        is_owner = obj.user == request.user
+        role = getattr(request.user, 'role', None)
+        role_name = getattr(role, 'name', None)
+        is_moderator_or_admin = role_name in ["Moderator", "SuperAdmin"]
+
+        return is_owner or is_moderator_or_admin

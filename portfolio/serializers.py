@@ -1,55 +1,66 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import ValidationError
-from portfolio.models import User, Feedback, Contact, Project, Portfolio, ProjectContributor, Files, ProjectUser
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from portfolio.models import User, Feedback, Contact, Project, Portfolio, ProjectContributor, Files, ProjectUser, \
+    Category, CategoryProject
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Add custom claims if needed
+        token['email'] = user.email
+        return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+        return data
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email']
+        fields = ['id', 'first_name', 'last_name', 'email']
 
 
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=200)
-    password = serializers.CharField(max_length=200)
-
-    def validate(self, data):
-        username = data.get("username")
-        password = data.get("password")
-
-        user = authenticate(username=username, password=password)
-
-        if not user:
-            raise ValidationError("User not found")
-        if not user.is_active:
-            raise ValidationError("User not found")
-
-        return {"user": user}
+    email = serializers.EmailField()
+    password = serializers.CharField(max_length=200, write_only=True)
 
 
-class RegisterSerializer(serializers.ModelSerializer):
-    re_password = serializers.CharField(max_length=200)
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    password_confirm = serializers.CharField(write_only=True)  # Add confirmation field
 
     class Meta:
         model = User
-        fields = (
-            "username",
-            "first_name",
-            "last_name",
-            "email",
-            "password",
-            "re_password")
+        fields = ['email', 'password', 'password_confirm', 'first_name', 'last_name']
 
     def validate(self, data):
-        re_password = data.pop("re_password")
-        password = data.get("password")
-        if re_password != password:
-            raise ValidationError("Password do not match")
+        """Validate that password and password_confirm match."""
+        if data['password'] != data['password_confirm']:
+            raise serializers.ValidationError(
+                {"password": "Passwords do not match."}
+            )
         return data
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        # Remove password_confirm since it’s not needed for user creation
+        validated_data.pop('password_confirm')
+
+        user = User.objects.create_user(
+            email=validated_data['email'],
+            password=validated_data['password'],
+            first_name=validated_data.get('first_name', ''),
+            last_name=validated_data.get('last_name', '')
+        )
+        return user
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
@@ -71,9 +82,13 @@ class ProjectContributerSerializer(serializers.ModelSerializer):
 
 
 class ProjectUserSerializer(serializers.ModelSerializer):
+    project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
+    contributor = serializers.PrimaryKeyRelatedField(queryset=ProjectContributor.objects.all())
+
     class Meta:
         model = ProjectUser
-        fields = ['project', 'contributor']
+        fields = ['id', 'project', 'contributor', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -99,9 +114,20 @@ class FilesSerializer(serializers.ModelSerializer):
 class ModeratorSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name']
+        fields = ['id', 'email', 'password', 'first_name', 'last_name']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+class CategoryProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CategoryProject
+        fields = '__all__'
