@@ -96,13 +96,13 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['title', 'description', 'start_time', 'end_time', 'git_hub', 'deploy_link', 'contributors']
+        fields = ['id','title', 'description', 'start_time', 'end_time', 'git_hub', 'deploy_link', 'contributors']
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Portfolio
-        fields = ['title', 'description']
+        fields = ['id','title', 'description']
 
 
 class FilesSerializer(serializers.ModelSerializer):
