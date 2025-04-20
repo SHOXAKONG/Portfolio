@@ -7,7 +7,7 @@ from portfolio.views import (
     ProjectViewSet, PortfolioViewSet, ProjectContributerViewSet, FilesViewSet,
     FeedbackViewSet, ContactViewSet, ModeratorViewSet, LoginView, RegisterView,
     LogoutAPIView, SessionAPIView, HelloAPIView, CustomTokenObtainPairView, CategoryViewSet, CategoryProjectViewSet,
-    ProjectUserViewSet
+    ProjectUserViewSet, ProfileViewSet
 )
 
 router = DefaultRouter()
@@ -23,6 +23,7 @@ router.register(r'moderators', ModeratorViewSet, basename='moderator')
 router.register(r'category', CategoryViewSet, basename='category')
 router.register(r'category_project', CategoryProjectViewSet, basename='category_project')
 router.register(r'project_user', ProjectUserViewSet, basename='project_user')
+router.register('profile', ProfileViewSet, basename='profile')
 
 urlpatterns = [
     path('', include(router.urls)),  # API ViewSets

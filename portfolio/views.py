@@ -23,7 +23,7 @@ from .serializers import (
     ProjectSerializer, PortfolioSerializer, ProjectContributerSerializer,
     FilesSerializer, FeedbackSerializer, ContactSerializer, ModeratorSerializer, CustomTokenObtainPairSerializer,
     UserRegistrationSerializer, LoginSerializer, UserSerializer, ProjectUserSerializer, CategorySerializer,
-    CategoryProjectSerializer
+    CategoryProjectSerializer, ProfileSerializer
 )
 from .paginations import CustomPagination
 
@@ -208,3 +208,14 @@ class CategoryProjectViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['project', 'category']
     search_fields = ['project__title', 'category__name']
+
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return User.objects.filter(id=self.request.user.id)
+
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)

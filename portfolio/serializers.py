@@ -96,7 +96,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['id','title', 'description', 'start_time', 'end_time', 'git_hub', 'deploy_link', 'contributors']
+        fields = ['id', 'project_img','title', 'description', 'start_time', 'end_time', 'git_hub', 'deploy_link', 'contributors']
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
@@ -131,3 +131,9 @@ class CategoryProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryProject
         fields = '__all__'
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'profile_img', 'first_name', 'last_name', 'email']

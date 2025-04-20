@@ -31,6 +31,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    profile_img = models.ImageField(upload_to='profile_img/')
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
