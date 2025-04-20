@@ -25,7 +25,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['http://localhost:5173']
+ALLOWED_HOSTS = ['localhost:5173', 'shoxakong.pythonanywhere.com']
 
 # Application definition
 
