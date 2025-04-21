@@ -78,7 +78,7 @@ class ContactSerializer(serializers.ModelSerializer):
 class ProjectContributerSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectContributor
-        fields = ['full_name', 'email', 'github_link', 'linkedin_link', 'position']
+        fields = ['id','full_name', 'email', 'github_link', 'linkedin_link', 'position']
 
 
 class ProjectUserSerializer(serializers.ModelSerializer):
