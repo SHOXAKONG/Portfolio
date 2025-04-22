@@ -6,8 +6,8 @@ from .project_contributor import ProjectContributor
 
 
 class ProjectUser(Base):
-    project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True)
-    contributor = models.ForeignKey(ProjectContributor, on_delete=models.SET_NULL, null=True)
+    project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, related_name='project_users')
+    contributor = models.ForeignKey(ProjectContributor, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'project_users'

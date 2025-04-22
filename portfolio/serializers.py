@@ -78,12 +78,12 @@ class ContactSerializer(serializers.ModelSerializer):
 class ProjectContributerSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectContributor
-        fields = ['id','full_name', 'email', 'github_link', 'linkedin_link', 'position']
+        fields = ['id', 'full_name', 'email', 'github_link', 'linkedin_link', 'position']
 
 
 class ProjectUserSerializer(serializers.ModelSerializer):
     project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
-    contributor = serializers.PrimaryKeyRelatedField(queryset=ProjectContributor.objects.all())
+    contributor = ProjectContributerSerializer(read_only=True)
 
     class Meta:
         model = ProjectUser
@@ -92,17 +92,18 @@ class ProjectUserSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    contributors = ProjectUserSerializer(many=True)
+    contributors = ProjectUserSerializer(many=True, source='project_users')
 
     class Meta:
         model = Project
-        fields = ['id', 'project_img','title', 'description', 'start_time', 'end_time', 'git_hub', 'deploy_link', 'contributors']
+        fields = ['id', 'project_img', 'title', 'description', 'start_time', 'end_time', 'git_hub', 'deploy_link',
+                  'contributors']
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Portfolio
-        fields = ['id','title', 'description']
+        fields = ['id', 'title', 'description']
 
 
 class FilesSerializer(serializers.ModelSerializer):
@@ -126,6 +127,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
+
 
 class CategoryProjectSerializer(serializers.ModelSerializer):
     class Meta:
