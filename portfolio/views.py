@@ -156,7 +156,7 @@ class FeedbackViewSet(viewsets.ModelViewSet):
 
 class ContactViewSet(viewsets.ModelViewSet):
     serializer_class = ContactSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnlyForContacts]
+    permission_classes = [AllowAny, IsOwnerOrReadOnlyForContacts]
     filter_backends = [DjangoFilterBackend, SearchFilter]
     search_fields = ['name', 'email', 'message']
 
