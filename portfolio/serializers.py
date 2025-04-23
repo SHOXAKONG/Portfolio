@@ -66,13 +66,13 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feedback
-        fields = ['author_name', 'feedback', 'rating', 'project']
+        fields = ['id', 'author_name', 'feedback', 'rating', 'project']
 
 
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = ['name', 'email', 'message']
+        fields = ['id', 'name', 'email', 'message']
 
 
 class ProjectContributerSerializer(serializers.ModelSerializer):
@@ -109,7 +109,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
 class FilesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Files
-        fields = ['project', 'name', 'downloaded_date']
+        fields = ['id', 'project', 'name', 'downloaded_date']
 
 
 class ModeratorSerializer(serializers.ModelSerializer):
