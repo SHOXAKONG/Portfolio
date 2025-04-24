@@ -83,7 +83,7 @@ class ProjectContributerSerializer(serializers.ModelSerializer):
 
 class ProjectUserSerializer(serializers.ModelSerializer):
     project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
-    contributor = ProjectContributerSerializer(read_only=True)
+    contributor = serializers.PrimaryKeyRelatedField(queryset=ProjectContributor.objects.all())
 
     class Meta:
         model = ProjectUser
@@ -92,12 +92,9 @@ class ProjectUserSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    contributors = ProjectUserSerializer(many=True, source='project_users')
-
     class Meta:
         model = Project
-        fields = ['id', 'project_img', 'title', 'description', 'start_time', 'end_time', 'git_hub', 'deploy_link',
-                  'contributors']
+        fields = ['id', 'project_img', 'title', 'description', 'start_time', 'end_time', 'git_hub', 'deploy_link']
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
