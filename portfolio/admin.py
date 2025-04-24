@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User, Role, Project, ProjectUser, ProjectContributor, CategoryProject, Category, Portfolio, Files, Feedback, Contact
+from .models import User, Role, Project, ProjectUser, ProjectContributor, CategoryProject, Category, Files, Feedback, Contact
 
 
 @admin.register(User)
@@ -33,9 +33,6 @@ class RoleAdmin(admin.ModelAdmin):
 class ProjectAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Portfolio)
-class PortfolioAdmin(admin.ModelAdmin):
-    pass
 
 @admin.register(ProjectUser)
 class ProjectUserAdmin(admin.ModelAdmin):

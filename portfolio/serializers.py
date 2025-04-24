@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from portfolio.models import User, Feedback, Contact, Project, Portfolio, ProjectContributor, Files, ProjectUser, \
+from portfolio.models import User, Feedback, Contact, Project, ProjectContributor, Files, ProjectUser, \
     Category, CategoryProject
 
 
@@ -96,11 +96,6 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = ['id', 'project_img', 'title', 'description', 'start_time', 'end_time', 'git_hub', 'deploy_link', 'contributors']
 
-
-class PortfolioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Portfolio
-        fields = ['id', 'title', 'description']
 
 
 class FilesSerializer(serializers.ModelSerializer):

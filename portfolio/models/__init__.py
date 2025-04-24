@@ -1,5 +1,5 @@
 from .users import User
-from .portfolio import Portfolio
+# from .portfolio import Portfolio
 from .files import Files
 from .project_users import ProjectUser
 from .category import Category

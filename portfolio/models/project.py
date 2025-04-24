@@ -1,12 +1,10 @@
 from .base import Base
 from django.db import models
 
-from .portfolio import Portfolio
 
 
 class Project(Base):
     project_img = models.URLField()
-    portfolio = models.ForeignKey(Portfolio, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
     start_time = models.DateField()

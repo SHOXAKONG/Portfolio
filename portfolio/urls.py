@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
 
 from portfolio.models import Category
 from portfolio.views import (
-    ProjectViewSet, PortfolioViewSet, ProjectContributerViewSet, FilesViewSet,
+    ProjectViewSet, ProjectContributerViewSet, FilesViewSet,
     FeedbackViewSet, ContactViewSet, ModeratorViewSet, LoginView, RegisterView,
     LogoutAPIView, SessionAPIView, HelloAPIView, CustomTokenObtainPairView, CategoryViewSet, CategoryProjectViewSet,
     ProjectUserViewSet, ProfileViewSet
@@ -14,7 +14,6 @@ router = DefaultRouter()
 
 # Registering ViewSets
 router.register(r'projects', ProjectViewSet, basename='project')
-router.register(r'portfolios', PortfolioViewSet, basename='portfolio')
 router.register(r'project-contributors', ProjectContributerViewSet, basename='project-contributor')
 router.register(r'files', FilesViewSet, basename='file')
 router.register(r'feedback', FeedbackViewSet, basename='feedback')

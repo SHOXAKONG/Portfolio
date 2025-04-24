@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import Project, Portfolio, ProjectContributor, Files, Feedback, Contact, User, Role, ProjectUser, Category, \
+from .models import Project, ProjectContributor, Files, Feedback, Contact, User, Role, ProjectUser, Category, \
     CategoryProject
 from .permissions import (
     IsModeratorOrSuperAdmin,
@@ -20,7 +20,7 @@ from .permissions import (
     FeedbackPermission
 )
 from .serializers import (
-    ProjectSerializer, PortfolioSerializer, ProjectContributerSerializer,
+    ProjectSerializer, ProjectContributerSerializer,
     FilesSerializer, FeedbackSerializer, ContactSerializer, ModeratorSerializer, CustomTokenObtainPairSerializer,
     UserRegistrationSerializer, LoginSerializer, UserSerializer, ProjectUserSerializer, CategorySerializer,
     CategoryProjectSerializer, ProfileSerializer
@@ -116,14 +116,14 @@ class ProjectViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'description']
 
 
-class PortfolioViewSet(viewsets.ModelViewSet):
-    queryset = Portfolio.objects.all()
-    serializer_class = PortfolioSerializer
-    permission_classes = [ReadOnlyOrAuthenticatedForSpecialModels]
-    pagination_class = CustomPagination
-    filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ['title']
-    search_fields = ['title', 'description']
+# class PortfolioViewSet(viewsets.ModelViewSet):
+#     queryset = Portfolio.objects.all()
+#     serializer_class = PortfolioSerializer
+#     permission_classes = [ReadOnlyOrAuthenticatedForSpecialModels]
+#     pagination_class = CustomPagination
+#     filter_backends = [DjangoFilterBackend, SearchFilter]
+#     filterset_fields = ['title']
+#     search_fields = ['title', 'description']
 
 
 class ProjectContributerViewSet(viewsets.ModelViewSet):
