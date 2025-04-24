@@ -94,7 +94,7 @@ class ProjectUserSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ['id', 'project_img', 'title', 'description', 'start_time', 'end_time', 'git_hub', 'deploy_link']
+        fields = ['id', 'project_img', 'title', 'description', 'start_time', 'end_time', 'git_hub', 'deploy_link', 'contributors']
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
