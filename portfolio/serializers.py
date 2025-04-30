@@ -50,6 +50,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             )
         return data
 
+
     def create(self, validated_data):
         # Remove password_confirm since it’s not needed for user creation
         validated_data.pop('password_confirm')
