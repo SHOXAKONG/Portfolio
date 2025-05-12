@@ -25,7 +25,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['localhost:5173', 'shoxakong.pythonanywhere.com', '127.0.0.1', "168.119.49.172", "poject-portfolio.netlify.app"]
+ALLOWED_HOSTS = ['localhost:5173', 'shoxakong.pythonanywhere.com', '127.0.0.1', "168.119.49.172", "poject-portfolio.netlify.app", "portfolio2.uz", "www.portfolio2.uz", "api.portfolio2.uz"]
 
 # Application definition
 
@@ -93,7 +93,9 @@ MIDDLEWARE = [
 
 
 CORS_ALLOWED_ORIGINS = [
-    "https://poject-portfolio.netlify.app"
+    "https://poject-portfolio.netlify.app",
+    "https://portfolio2.uz",
+    "https://www.portfolio2.uz"
 ]
 
 ROOT_URLCONF = 'config.urls'
