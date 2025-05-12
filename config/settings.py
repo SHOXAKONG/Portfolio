@@ -26,16 +26,15 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = [
-    '*'
-    # 'localhost:5173',
-    # 'shoxakong.pythonanywhere.com',
-    # '127.0.0.1',
-    # '168.119.49.172',
-    # 'project-portfolio.netlify.app',
-    # 'portfolio2.uz',
-    # 'www.portfolio2.uz',
-    # '.portfolio2.uz',
-    # '.portfolio2.uz'
+    'localhost:5173',
+    'shoxakong.pythonanywhere.com',
+    '127.0.0.1',
+    '168.119.49.172',
+    'project-portfolio.netlify.app',
+    'portfolio2.uz',
+    'www.portfolio2.uz',
+    '.portfolio2.uz',
+    'api.portfolio2.uz',
 ]
 # Application definition
 
