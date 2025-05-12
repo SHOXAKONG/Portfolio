@@ -33,9 +33,12 @@ ALLOWED_HOSTS = [
     'project-portfolio.netlify.app',
     'portfolio2.uz',
     'www.portfolio2.uz',
-    'api.portfolio2.uz',
+    '.portfolio2.uz',
+    'api.portfolio2.uz'
 ]
 # Application definition
+
+SECURE_PROXY_SSL_HEADER = {'HTTP_X_FORWARDED_PROTO', "https"}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
